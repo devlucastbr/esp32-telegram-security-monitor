@@ -1,0 +1,184 @@
+# 🚨 Sistema de Alarme com ESP32 + Sensor PIR + Telegram
+
+Projeto de sistema de alarme utilizando **ESP32 DevKit V1**, sensor de movimento **PIR (HC-SR501)** e envio de notificações em tempo real via **Telegram Bot**.
+
+---
+
+## 📌 Objetivo
+
+Desenvolver um sistema de monitoramento de movimento capaz de:
+
+- Detectar presença através de sensor PIR
+- Conectar-se à rede WiFi
+- Enviar alerta automático via Telegram
+- Evitar envio de mensagens repetidas (anti-spam)
+- Manter código organizado em arquitetura modular
+
+Esse projeto pode ser utilizado como base para:
+
+- Sistema de segurança residencial
+- Monitoramento de ambientes
+
+---
+
+## 🛠 Tecnologias Utilizadas
+
+- ESP32 DevKit V1
+- Sensor PIR HC-SR501
+- Framework Arduino
+- PlatformIO
+- API Telegram Bot
+- WiFi (protocolo 802.11 b/g/n)
+
+---
+
+## 🔌 Diagrama de Conexão
+
+### Sensor PIR → ESP32
+
+| PIR (HC-SR501) | ESP32 DevKit V1 |
+|---------------|----------------|
+| VCC           | 5V             |
+| GND           | GND            |
+| OUT           | GPIO 27        |
+
+> ⚠️ O sensor PIR pode ser alimentado com 5V.  
+> O sinal de saída é compatível com 3.3V do ESP32.
+
+---
+
+
+---
+
+## ⚙️ Como Compilar e Fazer Upload
+
+### 1️⃣ Instalar o PlatformIO
+
+Instale a extensão **PlatformIO IDE** no VSCode.
+
+### 2️⃣ Clonar o repositório
+
+git clone <url-do-repositorio>
+
+### 3️⃣ Conectar a ESP32
+
+Utilize um cabo **USB com suporte a dados**.
+
+### 4️⃣ Compilar
+
+No VSCode:
+PlatformIO → Build
+
+Ou via terminal:
+
+pio run
+
+### 5️⃣ Upload para a placa
+
+
+PlatformIO → Upload
+
+
+Se aparecer erro de boot:
+
+- Segure o botão **BOOT**
+- Clique em Upload
+- Solte quando começar a gravar
+
+---
+
+## 📶 Como Configurar WiFi
+
+Crie o arquivo:
+
+
+include/secrets.h
+
+
+Adicione:
+
+```cpp
+#pragma once
+
+constexpr const char* WIFI_SSID = "SeuWiFi";
+constexpr const char* WIFI_PASSWORD = "SuaSenhaWiFi";
+
+constexpr const char* TELEGRAM_TOKEN = "SeuToken";
+constexpr const char* TELEGRAM_CHATID = "SeuChatID";
+
+⚠️ Adicione include/secrets.h ao .gitignore.
+
+🤖 Como Criar um Bot no Telegram
+1️⃣ Abrir o Telegram
+
+Pesquisar por:
+
+@BotFather
+2️⃣ Criar novo bot
+
+Enviar comando:
+
+/newbot
+
+Definir:
+
+Nome do bot
+
+Username do bot
+
+O BotFather retornará um TOKEN.
+
+3️⃣ Descobrir o Chat ID
+
+Envie uma mensagem para seu bot.
+
+No navegador, acesse:
+
+https://api.telegram.org/botSEU_TOKEN/getUpdates
+
+Procure por:
+
+"chat": {
+    "id": 123456789
+}
+
+Esse número é o TELEGRAM_CHATID.
+
+ou 
+
+Pesquise no Telegram por @IDBot, inicie para pegar o TELEGRAM_CHATID
+
+🔁 Funcionamento do Sistema
+
+ESP32 conecta ao WiFi
+
+Sensor PIR detecta movimento
+
+ESP32 envia mensagem:
+
+🚨 Movimento detectado!
+
+Aguarda 2 minutos para evitar spam
+
+
+🚀 Melhorias Futuras
+
+- Registro de eventos
+
+- Integração com buzzer
+
+- Integração com câmera
+
+- Envio de foto ao detectar movimento
+
+- Dashboard web local
+
+- OTA (Over The Air Update)
+
+📜 Licença
+
+Apache 2.0 .
+
+👨‍💻 Autor
+
+Desenvolvido para estudos de Sistemas Embarcados e IoT da Universidade Estacio, por Lucas Tavares.
